@@ -1,0 +1,294 @@
+entity Region {
+    nomRegion String required unique
+}
+
+entity Station {
+    nomStation String required unique
+    nomGerant String required
+    emailStation String required
+    telephoneGerant Integer required
+}
+
+entity Produit {
+    nomProduit String required unique
+    codeProduit String required
+    typeProduit String required
+    conditionnement String required
+}
+
+entity Cuve {
+    nomCuve String required unique
+    matCuve String required
+    capaciteCuve Integer required
+    stockInitial Integer
+}
+
+entity Pompe {
+    nomPompe String required unique
+    datePompe String required
+    typePompe String required unique
+}
+
+entity Pistolet {
+    nomPistolet String required
+    indexInitial Integer
+    datePistolet Instant required
+}
+
+entity Pompiste {
+    nomPompiste String required unique
+}
+
+entity Client {
+    nomClient String required unique
+    codeClient String required unique
+    typeClient String required
+}
+
+entity Transporteur {
+    nomTransporteur String required unique
+    codeTransporteur String required unique
+    typeTransporteur String required
+}
+
+entity Livraison {
+    numBon String required unique
+    nomChauffeur String required
+    numScdp String
+    dateLivraison Instant required
+    matCamion String required
+    typeLivraison String required
+}
+
+entity LivraisonCarburant {
+    qteCommande Integer required
+    qteRecu Integer required
+}
+
+entity LivraisonLubrifiantGaz {
+    qteCommande Integer required
+    qteRecu Integer required
+}
+
+entity Quart {
+    dateOuverture Instant required
+    dateFermeture Instant required
+}
+
+entity JaugeQuart {
+    jaugeDepart Integer required
+    jaugeFin Integer required
+}
+
+entity ProduitQuart {
+    qteVendu Integer required
+    stockOuverture Integer required
+    stockFermeture Integer required
+}
+
+entity VersementBanque {
+    nomBanque String required
+    numCompte String required
+    numBordereau String required unique
+    montantVersement Float required
+}
+
+entity VersementPompiste {
+    montantVersement Float required
+}
+
+entity OrangeMoney {
+    soldeOm Float required
+    montantOm Float required
+}
+
+entity Caisse {
+    soldeCaisse Float required
+}
+
+entity Boutique {
+    soldeBoutique Float required
+    montantBoutique Float required
+}
+
+entity Laverie {
+    montantLaverie Float required
+}
+
+entity DepenseStation {
+    natureDepense String required
+    responsable String required
+    montantDepense Float required
+    imputationDepense String required
+}
+
+entity Facture {
+    numFacture String required
+    dateFacture Instant required
+    montantFacture Float required
+    soldeFacture Float required
+}
+
+entity FactureFournisseur {
+    numFacture String required unique
+    dateFacture Instant required
+    montantFacture Float required
+    soldeFacture Float required
+}
+
+entity Reglement {
+    typeReglement String required
+    montantReglement Float required
+    soldeReglement Float required
+    dateReglement Instant required
+}
+
+entity ReglementFournisseur {
+    typeReglement String required
+    montantReglement Float required
+    dateReglement Instant required
+}
+
+entity LigneFournisseur {
+    qteCommande Integer required
+    montantLigne Float required
+}
+
+entity ProduitClient {
+    qteVendu Integer required
+}
+
+entity ProduitStation {
+    prixProduit Float required
+    stockInitial Integer
+}
+
+entity TransportProduit {
+    prixTransport Float required
+}
+
+entity ProduitFournisseur {
+    prixProduit Float required
+}
+
+entity Fournisseur {
+    nomFournisseur String required
+    codeFournisseur String required
+    typeFournisseur String
+}
+
+entity Users {
+    userName String required unique
+    userEmail String required unique
+    userPass String required unique
+    role String
+}
+
+// Relationships
+relationship ManyToOne {
+    Station{region} to Region
+    Cuve{produit} to Produit
+    Cuve{station} to Station
+    Pompe{station} to Station
+    Pistolet{cuve} to Cuve
+    Pistolet{pompe} to Pompe
+    Pompiste{station} to Station
+    Client{station} to Station
+    Transporteur{station} to Station
+    Livraison{transporteur} to Transporteur
+    LivraisonCarburant{livraison} to Livraison
+    LivraisonCarburant{produit} to Produit
+    LivraisonCarburant{cuve} to Cuve
+    LivraisonLubrifiantGaz{livraison} to Livraison
+    LivraisonLubrifiantGaz{produit} to Produit
+    LivraisonLubrifiantGaz{station} to Station
+    Quart{station} to Station
+    JaugeQuart{quart} to Quart
+    JaugeQuart{cuve} to Cuve
+    ProduitQuart{quart} to Quart
+    ProduitQuart{produit} to Produit
+    VersementBanque{quart} to Quart
+    VersementPompiste{quart} to Quart
+    VersementPompiste{pompiste} to Pompiste
+    OrangeMoney{quart} to Quart
+    Caisse{quart} to Quart
+    Boutique{quart} to Quart
+    Laverie{quart} to Quart
+    DepenseStation{quart} to Quart
+    Facture{client} to Client
+    Facture{quart} to Quart
+    FactureFournisseur{fournisseur} to Fournisseur
+    FactureFournisseur{quart} to Quart
+    Reglement{client} to Client
+    Reglement{quart} to Quart
+    Reglement{station} to Station
+    ReglementFournisseur{fournisseur} to Fournisseur
+    ReglementFournisseur{quart} to Quart
+    LigneFournisseur{facture} to FactureFournisseur
+    LigneFournisseur{produit} to Produit
+    LigneFournisseur{fournisseur} to Fournisseur
+    ProduitClient{produit} to Produit
+    ProduitClient{client} to Client
+    ProduitClient{quart} to Quart
+    ProduitStation{produit} to Produit
+    ProduitStation{station} to Station
+    TransportProduit{transporteur} to Transporteur
+    TransportProduit{produit} to Produit
+    ProduitFournisseur{produit} to Produit
+    ProduitFournisseur{fournisseur} to Fournisseur
+    Users{station} to Station
+}
+
+relationship OneToMany {
+    Region{station} to Station
+    Station{cuve} to Cuve
+    Station{pompe} to Pompe
+    Station{pompiste} to Pompiste
+    Station{client} to Client
+    Station{transporteur} to Transporteur
+    Station{quart} to Quart
+    Station{reglement} to Reglement
+    Station{produitStation} to ProduitStation
+    Produit{cuve} to Cuve
+    Produit{livraisonCarburant} to LivraisonCarburant
+    Produit{livraisonLubrifiantGaz} to LivraisonLubrifiantGaz
+    Produit{produitQuart} to ProduitQuart
+    Produit{produitClient} to ProduitClient
+    Produit{produitStation} to ProduitStation
+    Produit{transportProduit} to TransportProduit
+    Produit{produitFournisseur} to ProduitFournisseur
+    Cuve{pistolet} to Pistolet
+    Cuve{jaugeQuart} to JaugeQuart
+    Pompe{pistolet} to Pistolet
+    Livraison{livraisonCarburant} to LivraisonCarburant
+    Livraison{livraisonLubrifiantGaz} to LivraisonLubrifiantGaz
+    Quart{jaugeQuart} to JaugeQuart
+    Quart{produitQuart} to ProduitQuart
+    Quart{versementBanque} to VersementBanque
+    Quart{versementPompiste} to VersementPompiste
+    Quart{orangeMoney} to OrangeMoney
+    Quart{caisse} to Caisse
+    Quart{boutique} to Boutique
+    Quart{laverie} to Laverie
+    Quart{depenseStation} to DepenseStation
+    Quart{facture} to Facture
+    Quart{factureFournisseur} to FactureFournisseur
+    Quart{reglement} to Reglement
+    Quart{reglementFournisseur} to ReglementFournisseur
+    Client{facture} to Facture
+    Client{reglement} to Reglement
+    Client{produitClient} to ProduitClient
+    Transporteur{livraison} to Livraison
+    Transporteur{transportProduit} to TransportProduit
+    Fournisseur{factureFournisseur} to FactureFournisseur
+    Fournisseur{reglementFournisseur} to ReglementFournisseur
+    Fournisseur{produitFournisseur} to ProduitFournisseur
+    Fournisseur{ligneFournisseur} to LigneFournisseur
+}
+
+// Pagination
+paginate * with pagination
+
+// DTO and Service options
+dto * with mapstruct
+service * with serviceClass
