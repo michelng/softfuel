@@ -1,0 +1,4 @@
+org.springframework.test.context.ContextCustomizerFactory = \
+    com.softfuel.softfuelapp.config.\
+    SqlTestContainersSpringContextCustomizerFactory,com.softfuel.softfuelapp.\
+    config.TestContainersSpringContextCustomizerFactory
